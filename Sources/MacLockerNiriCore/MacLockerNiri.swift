@@ -476,17 +476,12 @@ public func runLockCommands(_ commands: [[String]], dryRun: Bool) -> Bool {
 
         log("locking with \(formatCommand(command))")
         do {
-            let result = try runProcess(command, timeout: 30)
-            if result.timedOut {
-                log("lock command timed out: \(formatCommand(command))")
-                continue
-            }
-            if (result.exitCode ?? 1) == 0 {
+            let exitCode = try runLockCommand(command)
+            if exitCode == 0 {
                 return true
             }
 
-            let detail = result.output.trimmed
-            log("lock command failed with exit \(result.exitCode ?? -1)\(detail.isEmpty ? "" : ": \(detail)")")
+            log("lock command failed with exit \(exitCode)")
         } catch MacLockerNiriError.processNotFound(_) {
             log("lock command not found: \(command[0])")
         } catch {
@@ -495,6 +490,34 @@ public func runLockCommands(_ commands: [[String]], dryRun: Bool) -> Bool {
     }
 
     return false
+}
+
+private func runLockCommand(_ command: [String]) throws -> Int32 {
+    guard let executableName = command.first, !executableName.isEmpty else {
+        throw MacLockerNiriError.invalidArgument("command cannot be empty")
+    }
+    guard let executable = findExecutable(executableName) else {
+        throw MacLockerNiriError.processNotFound(executableName)
+    }
+
+    let process = Process()
+    process.executableURL = URL(fileURLWithPath: executable)
+    process.arguments = Array(command.dropFirst())
+    if let nullRead = FileHandle(forReadingAtPath: "/dev/null") {
+        process.standardInput = nullRead
+    }
+    if let nullWrite = FileHandle(forWritingAtPath: "/dev/null") {
+        process.standardOutput = nullWrite
+        process.standardError = nullWrite
+    }
+
+    do {
+        try process.run()
+    } catch {
+        throw MacLockerNiriError.processFailed("\(executableName) failed to start: \(error)")
+    }
+    process.waitUntilExit()
+    return process.terminationStatus
 }
 
 public struct MacLockerNiriOptions {

@@ -226,7 +226,7 @@ func parseTraySettingsOutput(_ output: String, fallback: MacLockerNiriConfig) th
     if parts.last?.trimmed.isEmpty == true {
         parts.removeLast()
     }
-    guard parts.count >= 10 else {
+    guard parts.count == 10 else {
         throw MacLockerNiriError.invalidArgument("yad settings returned \(parts.count) fields, expected 10")
     }
 
@@ -300,20 +300,20 @@ final class TrayController {
     }
 
     private func startMonitor() throws -> Int32 {
-        if monitorIsRunning() {
+        if runningMonitorPid() != nil {
             log("tray monitor already running")
             return 0
         }
 
         let command = try monitorArguments(executable: executable, config: loadMacLockerNiriConfig(from: configURL))
-        let pid = try startDetached(command)
-        try writePid(pid)
-        log("tray monitor started with pid \(pid)")
+        let monitor = try startDetached(command)
+        try writePid(monitor)
+        log("tray monitor started with pid \(monitor.pid)")
         return 0
     }
 
     private func stopMonitor() throws -> Int32 {
-        guard let pid = readPid() else {
+        guard let pid = runningMonitorPid() else {
             log("tray monitor is not running")
             return 0
         }
@@ -327,19 +327,18 @@ final class TrayController {
     }
 
     private func monitorIsRunning() -> Bool {
-        guard let pid = readPid(), processExists(pid) else {
-            return false
-        }
-        return true
+        runningMonitorPid() != nil
     }
 
-    private func startDetached(_ command: [String]) throws -> Int32 {
+    private func startDetached(_ command: [String]) throws -> MonitorPidFile {
         guard let executableName = command.first, let executablePath = findExecutable(executableName) else {
             throw MacLockerNiriError.processNotFound(command.first ?? "")
         }
+        let executableURL = URL(fileURLWithPath: executablePath).standardizedFileURL
+        let resolvedCommand = [executableURL.path] + Array(command.dropFirst())
 
         let process = Process()
-        process.executableURL = URL(fileURLWithPath: executablePath)
+        process.executableURL = executableURL
         process.arguments = Array(command.dropFirst())
 
         let nullRead = FileHandle(forReadingAtPath: "/dev/null")
@@ -358,27 +357,74 @@ final class TrayController {
             throw MacLockerNiriError.processFailed("\(executableName) failed to start: \(error)")
         }
 
-        return process.processIdentifier
+        return MonitorPidFile(pid: process.processIdentifier, command: resolvedCommand)
     }
 
-    private func readPid() -> Int32? {
+    private func runningMonitorPid() -> Int32? {
+        guard let file = readPid(), processExists(file.pid), monitorProcessMatches(file) else {
+            try? FileManager.default.removeItem(at: pidURL)
+            return nil
+        }
+        return file.pid
+    }
+
+    private func readPid() -> MonitorPidFile? {
         guard let text = try? String(contentsOf: pidURL, encoding: .utf8) else {
             return nil
         }
-        return Int32(text.trimmed)
+        if let data = text.data(using: .utf8),
+           let file = try? JSONDecoder().decode(MonitorPidFile.self, from: data)
+        {
+            return file
+        }
+        guard let pid = Int32(text.trimmed) else {
+            return nil
+        }
+        return MonitorPidFile(pid: pid, command: [])
     }
 
-    private func writePid(_ pid: Int32) throws {
+    private func writePid(_ file: MonitorPidFile) throws {
         try FileManager.default.createDirectory(
             at: pidURL.deletingLastPathComponent(),
             withIntermediateDirectories: true
         )
-        try "\(pid)\n".write(to: pidURL, atomically: true, encoding: .utf8)
+        try JSONEncoder().encode(file).write(to: pidURL, options: .atomic)
     }
+
+    private func monitorProcessMatches(_ file: MonitorPidFile) -> Bool {
+        guard let command = processCommandLine(pid: file.pid) else {
+            return false
+        }
+        if !file.command.isEmpty {
+            return command == file.command
+        }
+        // Old pidfiles only stored a PID. Keep control of those only when the
+        // live process still looks like this monitor, not an unrelated reused PID.
+        return command.first.map { URL(fileURLWithPath: $0).lastPathComponent == URL(fileURLWithPath: executable).lastPathComponent } == true
+            && command.contains("--device")
+    }
+}
+
+private struct MonitorPidFile: Codable {
+    let pid: Int32
+    let command: [String]
 }
 
 private func processExists(_ pid: Int32) -> Bool {
     pid > 1 && kill(pid, 0) == 0
+}
+
+private func processCommandLine(pid: Int32) -> [String]? {
+#if os(Linux)
+    guard let data = FileManager.default.contents(atPath: "/proc/\(pid)/cmdline"), !data.isEmpty else {
+        return nil
+    }
+    return String(decoding: data, as: UTF8.self)
+        .split(separator: "\0", omittingEmptySubsequences: true)
+        .map(String.init)
+#else
+    return nil
+#endif
 }
 
 private func nonEmpty(_ value: String?) -> String? {

@@ -1,6 +1,12 @@
 import Foundation
 import XCTest
 
+#if os(Linux)
+import Glibc
+#else
+import Darwin
+#endif
+
 @testable import MacLockerNiriCore
 
 final class MacLockerNiriTests: XCTestCase {
@@ -102,6 +108,13 @@ final class MacLockerNiriTests: XCTestCase {
         XCTAssertEqual(config.lockCommand, "swaylock -f")
         XCTAssertTrue(config.ignoreMissing)
         XCTAssertFalse(config.dryRun)
+        XCTAssertEqual(config.bluetoothctl, "bluetoothctl")
+    }
+
+    func testParseTraySettingsOutputRejectsExtraFields() {
+        let output = "Apple Watch|-72|2|4.5|8|120|swaylock -f|TRUE|FALSE|bluetoothctl|extra|\n"
+
+        XCTAssertThrowsError(try parseTraySettingsOutput(output, fallback: MacLockerNiriConfig()))
     }
 
     func testYadNotificationMenuRunsSameExecutableActions() {
@@ -113,4 +126,52 @@ final class MacLockerNiriTests: XCTestCase {
         XCTAssertTrue(menu.contains("Stop!'/tmp/mac locker' --tray-stop"))
         XCTAssertTrue(arguments.contains("--text=MacLocker Niri (stopped)"))
     }
+
+    func testRunLockCommandsWaitsForForegroundLockerAndKeepsFallbacks() throws {
+        let directory = try makeTemporaryDirectory()
+        let markerURL = directory.appendingPathComponent("locker-ran")
+
+        let started = Date()
+        let locked = runLockCommands(
+            [
+                ["/bin/sh", "-c", "sleep 0.2; exit 7"],
+                ["/bin/sh", "-c", "sleep 0.4; touch '\(markerURL.path)'; exit 0"],
+            ],
+            dryRun: false
+        )
+
+        XCTAssertTrue(locked)
+        XCTAssertGreaterThanOrEqual(Date().timeIntervalSince(started), 0.55)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: markerURL.path))
+    }
+
+    func testTrayStopIgnoresPidFileForDifferentProcess() throws {
+        let directory = try makeTemporaryDirectory()
+        let configURL = directory.appendingPathComponent("config.json")
+        let pidURL = directory.appendingPathComponent("monitor.pid")
+        let unrelated = Process()
+        unrelated.executableURL = URL(fileURLWithPath: "/bin/sleep")
+        unrelated.arguments = ["30"]
+        try unrelated.run()
+        defer {
+            if unrelated.isRunning {
+                unrelated.terminate()
+                unrelated.waitUntilExit()
+            }
+        }
+
+        try "\(unrelated.processIdentifier)\n".write(to: pidURL, atomically: true, encoding: .utf8)
+
+        XCTAssertEqual(try TrayController(configURL: configURL, executable: "/bin/true").run(.stop), 0)
+        Thread.sleep(forTimeInterval: 0.1)
+        XCTAssertTrue(unrelated.isRunning)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: pidURL.path))
+    }
+}
+
+private func makeTemporaryDirectory() throws -> URL {
+    let directory = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        .appendingPathComponent(UUID().uuidString, isDirectory: true)
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    return directory
 }
