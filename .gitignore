@@ -13,6 +13,10 @@ xcuserdata/
 Packages/
 Package.resolved
 
+# Python
+__pycache__/
+*.py[cod]
+
 # macOS
 .AppleDouble
 .LSOverride
