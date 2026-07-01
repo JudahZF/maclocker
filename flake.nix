@@ -78,6 +78,7 @@
                   pkgs.bluez
                   pkgs.coreutils
                   pkgs.systemd
+                  pkgs.yad
                 ]}
               ln -s "$out/bin/maclocker-niri" "$out/bin/maclocker"
 

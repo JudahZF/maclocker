@@ -2,7 +2,7 @@
 
 MacLocker is a proximity locker. On macOS 14+ it is a menu bar app that watches a selected nearby Bluetooth device, calibrates a near and away RSSI threshold, and locks the Mac after sustained away evidence.
 
-On Linux/Niri it is a small Swift CLI, `maclocker-niri`, that samples Bluetooth RSSI through BlueZ `bluetoothctl` and runs a session lock command after repeated away samples.
+On Linux/Niri it is a small Swift app, `maclocker-niri`, that can run either as a CLI or as a tray/status item. It samples Bluetooth RSSI through BlueZ `bluetoothctl` and runs a session lock command after repeated away samples.
 
 ## Install
 
@@ -29,6 +29,7 @@ From a checkout:
 ```sh
 nix run .#maclocker-niri -- --list-devices
 nix run .#maclocker-niri -- --device AA:BB:CC:DD:EE:FF --threshold -80 --dry-run
+nix run .#maclocker-niri -- --tray
 ```
 
 From GitHub after this branch is published:
@@ -37,7 +38,7 @@ From GitHub after this branch is published:
 nix run github:JudahZF/maclocker#maclocker-niri -- --device AA:BB:CC:DD:EE:FF --threshold -80
 ```
 
-The Linux flake package includes the runtime tools it directly needs: BlueZ `bluetoothctl`, `loginctl` from systemd, and coreutils `timeout`. Custom locker commands such as `swaylock`, `gtklock`, or `hyprlock` are used from your session `PATH`.
+The Linux flake package includes the runtime tools it directly needs: BlueZ `bluetoothctl`, `loginctl` from systemd, coreutils `timeout`, and `yad` for the tray/settings UI. Custom locker commands such as `swaylock`, `gtklock`, or `hyprlock` are used from your session `PATH`.
 
 ### Homebrew
 
@@ -107,6 +108,20 @@ Enable Bluetooth on NixOS and make sure your user session can talk to BlueZ. A t
   services.blueman.enable = true; # optional, useful for pairing and trust management
 }
 ```
+
+For the Niri status item, run:
+
+```sh
+maclocker-niri --tray
+```
+
+Niri does not provide a built-in menu bar. The tray mode uses `yad --notification`, so your bar needs a StatusNotifier/AppIndicator tray host such as Waybar with its `tray` module enabled. The tray menu has Settings, Start, Stop, and Quit entries. Settings are stored in:
+
+```sh
+~/.config/maclocker-niri/config.json
+```
+
+Use Settings to set the device, threshold, lock command, and sampling values, then choose Start from the tray menu. On a headless session or a bar without tray support, `--tray` can start but no visible item will appear.
 
 Pair or trust the device first if needed, then find the address:
 

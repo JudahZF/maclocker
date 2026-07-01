@@ -256,7 +256,7 @@ public func findExecutable(_ name: String, environment: [String: String] = Proce
     return nil
 }
 
-public func runProcess(_ command: [String], timeout: TimeInterval) throws -> ProcessResult {
+public func runProcess(_ command: [String], timeout: TimeInterval? = nil) throws -> ProcessResult {
     guard let executableName = command.first, !executableName.isEmpty else {
         throw MacLockerNiriError.invalidArgument("command cannot be empty")
     }
@@ -279,17 +279,21 @@ public func runProcess(_ command: [String], timeout: TimeInterval) throws -> Pro
         throw MacLockerNiriError.processFailed("\(executableName) failed to start: \(error)")
     }
 
-    let semaphore = DispatchSemaphore(value: 0)
-    DispatchQueue.global().async {
-        sendableProcess.process.waitUntilExit()
-        semaphore.signal()
-    }
-
     var timedOut = false
-    if semaphore.wait(timeout: .now() + timeout) == .timedOut {
-        timedOut = true
-        sendableProcess.process.terminate()
-        _ = semaphore.wait(timeout: .now() + 2)
+    if let timeout {
+        let semaphore = DispatchSemaphore(value: 0)
+        DispatchQueue.global().async {
+            sendableProcess.process.waitUntilExit()
+            semaphore.signal()
+        }
+
+        if semaphore.wait(timeout: .now() + timeout) == .timedOut {
+            timedOut = true
+            sendableProcess.process.terminate()
+            _ = semaphore.wait(timeout: .now() + 2)
+        }
+    } else {
+        process.waitUntilExit()
     }
 
     let output = String(decoding: pipe.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
@@ -506,8 +510,17 @@ public struct MacLockerNiriOptions {
     public var once = false
     public var listDevices = false
     public var bluetoothctl = "bluetoothctl"
+    var trayAction = TrayAction.none
 
     public init() {}
+}
+
+enum TrayAction: Equatable {
+    case none
+    case menu
+    case settings
+    case start
+    case stop
 }
 
 public let usageText = """
@@ -527,6 +540,7 @@ Options:
   --dry-run               Log the lock command instead of executing it
   --once                  Take one sample and exit
   --list-devices          Print known Bluetooth devices and exit
+  --tray                  Show a StatusNotifier/AppIndicator tray menu
   --help                  Show this help
 """
 
@@ -585,6 +599,14 @@ public func parseOptions(_ arguments: [String]) throws -> MacLockerNiriOptions {
                 options.once = true
             case "--list-devices":
                 options.listDevices = true
+            case "--tray":
+                options.trayAction = .menu
+            case "--tray-settings":
+                options.trayAction = .settings
+            case "--tray-start":
+                options.trayAction = .start
+            case "--tray-stop":
+                options.trayAction = .stop
             case "--bluetoothctl":
                 options.bluetoothctl = try value(after: argument)
             default:
@@ -595,6 +617,11 @@ public func parseOptions(_ arguments: [String]) throws -> MacLockerNiriOptions {
         index += 1
     }
 
+    try validateOptions(options)
+    return options
+}
+
+func validateOptions(_ options: MacLockerNiriOptions) throws {
     if options.awaySamples < 1 {
         throw MacLockerNiriError.invalidArgument("--away-samples must be at least 1")
     }
@@ -610,14 +637,19 @@ public func parseOptions(_ arguments: [String]) throws -> MacLockerNiriOptions {
     if let device = options.device, device.isEmpty {
         throw MacLockerNiriError.invalidArgument("--device cannot be empty")
     }
-
-    return options
+    if options.bluetoothctl.isEmpty {
+        throw MacLockerNiriError.invalidArgument("--bluetoothctl cannot be empty")
+    }
 }
 
 public final class Runner {
     public init() {}
 
     public func run(_ options: MacLockerNiriOptions) throws -> Int32 {
+        if options.trayAction != .none {
+            return try TrayController().run(options.trayAction)
+        }
+
         let scanner = BluetoothctlScanner(bluetoothctl: options.bluetoothctl)
 
         if options.listDevices {
@@ -758,7 +790,7 @@ private func parseDouble(_ value: String, option: String) throws -> Double {
     return parsed
 }
 
-private extension String {
+extension String {
     var trimmed: String {
         trimmingCharacters(in: .whitespacesAndNewlines)
     }
