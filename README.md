@@ -1,14 +1,16 @@
 # MacLocker
 
-MacLocker is a local macOS 14+ menu bar app that watches a selected nearby Bluetooth device, calibrates a near and away RSSI threshold, and locks the Mac after sustained away evidence.
+MacLocker is a proximity locker. On macOS 14+ it is a menu bar app that watches a selected nearby Bluetooth device, calibrates a near and away RSSI threshold, and locks the Mac after sustained away evidence.
+
+On Linux/Niri it is a small Swift app, `maclocker-niri`, that can run either as a CLI or as a tray/status item. It samples Bluetooth RSSI through BlueZ `bluetoothctl` and runs a session lock command after repeated away samples.
 
 ## Install
 
-### GitHub Release
+### GitHub Release for macOS
 
 Download `MacLocker-1.0.zip` from the [MacLocker 1.0 release](https://github.com/JudahZF/maclocker/releases/tag/v1.0), unzip it, and move `MacLocker.app` to `/Applications`.
 
-### Nix
+### Nix for macOS
 
 ```sh
 nix profile install github:JudahZF/maclocker/v1.0#maclocker
@@ -19,6 +21,24 @@ Or run without installing:
 ```sh
 nix run github:JudahZF/maclocker/v1.0
 ```
+
+### NixOS and Niri
+
+From a checkout:
+
+```sh
+nix run .#maclocker-niri -- --list-devices
+nix run .#maclocker-niri -- --device AA:BB:CC:DD:EE:FF --threshold -80 --dry-run
+nix run .#maclocker-niri -- --tray
+```
+
+From GitHub after this branch is published:
+
+```sh
+nix run github:JudahZF/maclocker#maclocker-niri -- --device AA:BB:CC:DD:EE:FF --threshold -80
+```
+
+The Linux flake package includes the runtime tools it directly needs: BlueZ `bluetoothctl`, `loginctl` from systemd, coreutils `timeout`, and `yad` for the tray/settings UI. Custom locker commands such as `swaylock`, `gtklock`, or `hyprlock` are used from your session `PATH`.
 
 ### Homebrew
 
@@ -44,6 +64,12 @@ make build
 make test
 make verify
 make release
+```
+
+Linux checks that do not require Nix:
+
+```sh
+make linux-check
 ```
 
 ## Bluetooth Permission
@@ -72,6 +98,93 @@ Display sleep can obey your password-after-sleep delay. If that delay is greater
 
 Auto-lock does not arm until Bluetooth is authorized, a device is selected, calibration succeeds, auto-lock is enabled, and the app is not paused.
 
+## Niri and NixOS Usage
+
+Enable Bluetooth on NixOS and make sure your user session can talk to BlueZ. A typical NixOS system has:
+
+```nix
+{
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true; # optional, useful for pairing and trust management
+}
+```
+
+For the Niri status item, run:
+
+```sh
+maclocker-niri --tray
+```
+
+Niri does not provide a built-in menu bar. The tray mode uses `yad --notification`, so your bar needs a StatusNotifier/AppIndicator tray host such as Waybar with its `tray` module enabled. The tray menu has Settings, Start, Stop, and Quit entries. Settings are stored in:
+
+```sh
+~/.config/maclocker-niri/config.json
+```
+
+Use Settings to set the device, threshold, lock command, and sampling values, then choose Start from the tray menu. On a headless session or a bar without tray support, `--tray` can start but no visible item will appear.
+
+Pair or trust the device first if needed, then find the address:
+
+```sh
+maclocker-niri --list-devices
+```
+
+Run a dry test:
+
+```sh
+maclocker-niri \
+  --device AA:BB:CC:DD:EE:FF \
+  --threshold -80 \
+  --away-samples 3 \
+  --dry-run
+```
+
+Run with an explicit Wayland locker:
+
+```sh
+maclocker-niri \
+  --device AA:BB:CC:DD:EE:FF \
+  --threshold -80 \
+  --lock-command "swaylock -f"
+```
+
+By default, `maclocker-niri` tries `loginctl lock-session $XDG_SESSION_ID` when `XDG_SESSION_ID` is set, otherwise `loginctl lock-session`. If that command fails, it tries installed common Wayland lockers in this order: `swaylock -f`, `gtklock`, then `hyprlock`. A successful `loginctl lock-session` only requests that the session lock itself; under Niri you still need a session component that reacts to the logind lock signal, or pass an explicit locker with `--lock-command`.
+
+A NixOS user service can run it for your graphical session:
+
+```nix
+{ inputs, pkgs, ... }:
+let
+  maclockerNiri = inputs.maclocker.packages.${pkgs.system}."maclocker-niri";
+in
+{
+  environment.systemPackages = [
+    maclockerNiri
+    pkgs.swaylock
+  ];
+
+  systemd.user.services.maclocker-niri = {
+    description = "MacLocker Niri Bluetooth proximity lock";
+    after = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = "${maclockerNiri}/bin/maclocker-niri --device AA:BB:CC:DD:EE:FF --threshold -80 --lock-command \"swaylock -f\"";
+      Restart = "on-failure";
+      RestartSec = 10;
+    };
+  };
+}
+```
+
+RSSI behavior:
+
+- Each sample starts a short `bluetoothctl scan on` window and uses the strongest RSSI seen for the selected device.
+- Device names can work, but a stable Bluetooth address is more reliable because many devices reuse or hide names.
+- RSSI below `--threshold` counts as away. Missing RSSI also counts as away unless `--ignore-missing` is set.
+- Locking happens after `--away-samples` consecutive away samples, then waits `--cooldown` seconds before arming again.
+
 ## Known Limitation
 
 Direct Apple Watch Bluetooth visibility is not guaranteed. Apple devices may hide or rotate Bluetooth identifiers, and a watch may never appear as a stable macOS Bluetooth scan candidate. Version 1 does not include a watchOS companion app or iPhone proxy; if no stable candidate appears, keep auto-lock disabled.
+
+The same Bluetooth limitation applies on Linux. `maclocker-niri` can only act on RSSI values that BlueZ exposes for a visible, stable device. It does not need root for normal operation, but it does need a working user Bluetooth session and a locker that can lock your Niri session.
