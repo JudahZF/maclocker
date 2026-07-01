@@ -1,0 +1,608 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		000000000000000000000101 /* MacLockerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000201 /* MacLockerApp.swift */; };
+		000000000000000000000102 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000202 /* AppDelegate.swift */; };
+		000000000000000000000103 /* StatusMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000203 /* StatusMenuController.swift */; };
+		000000000000000000000104 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000204 /* SettingsWindowController.swift */; };
+		000000000000000000000105 /* DeviceSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000205 /* DeviceSelectionView.swift */; };
+		000000000000000000000106 /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000206 /* CalibrationView.swift */; };
+		000000000000000000000107 /* SafetySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000207 /* SafetySettingsView.swift */; };
+		000000000000000000000108 /* WatchScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000208 /* WatchScanner.swift */; };
+		000000000000000000000109 /* BluetoothAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000209 /* BluetoothAuthorization.swift */; };
+		00000000000000000000010A /* AdvertisementSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000020A /* AdvertisementSummary.swift */; };
+		00000000000000000000010B /* WatchSignalEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000020B /* WatchSignalEvent.swift */; };
+		00000000000000000000010C /* SignalClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000020C /* SignalClassifier.swift */; };
+		00000000000000000000010D /* CalibrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000020D /* CalibrationModel.swift */; };
+		00000000000000000000010E /* LockController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000020E /* LockController.swift */; };
+		00000000000000000000010F /* ImmediateShortcutLocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000020F /* ImmediateShortcutLocker.swift */; };
+		000000000000000000000110 /* DisplaySleepLocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000210 /* DisplaySleepLocker.swift */; };
+		000000000000000000000111 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000211 /* SettingsStore.swift */; };
+		000000000000000000000112 /* LockSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000212 /* LockSettings.swift */; };
+		000000000000000000000113 /* LaunchAtLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000213 /* LaunchAtLoginController.swift */; };
+		000000000000000000000114 /* CalibrationModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000214 /* CalibrationModelTests.swift */; };
+		000000000000000000000115 /* SignalClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000215 /* SignalClassifierTests.swift */; };
+		000000000000000000000116 /* LockControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000216 /* LockControllerTests.swift */; };
+		000000000000000000000117 /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000217 /* SettingsStoreTests.swift */; };
+		000000000000000000000118 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000021C /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		000000000000000000000301 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000000000401;
+			remoteInfo = MacLocker;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		000000000000000000000201 /* MacLockerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacLockerApp.swift; sourceTree = "<group>"; };
+		000000000000000000000202 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		000000000000000000000203 /* StatusMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMenuController.swift; sourceTree = "<group>"; };
+		000000000000000000000204 /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
+		000000000000000000000205 /* DeviceSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSelectionView.swift; sourceTree = "<group>"; };
+		000000000000000000000206 /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
+		000000000000000000000207 /* SafetySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetySettingsView.swift; sourceTree = "<group>"; };
+		000000000000000000000208 /* WatchScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchScanner.swift; sourceTree = "<group>"; };
+		000000000000000000000209 /* BluetoothAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothAuthorization.swift; sourceTree = "<group>"; };
+		00000000000000000000020A /* AdvertisementSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementSummary.swift; sourceTree = "<group>"; };
+		00000000000000000000020B /* WatchSignalEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSignalEvent.swift; sourceTree = "<group>"; };
+		00000000000000000000020C /* SignalClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalClassifier.swift; sourceTree = "<group>"; };
+		00000000000000000000020D /* CalibrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationModel.swift; sourceTree = "<group>"; };
+		00000000000000000000020E /* LockController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockController.swift; sourceTree = "<group>"; };
+		00000000000000000000020F /* ImmediateShortcutLocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmediateShortcutLocker.swift; sourceTree = "<group>"; };
+		000000000000000000000210 /* DisplaySleepLocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySleepLocker.swift; sourceTree = "<group>"; };
+		000000000000000000000211 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		000000000000000000000212 /* LockSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockSettings.swift; sourceTree = "<group>"; };
+		000000000000000000000213 /* LaunchAtLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginController.swift; sourceTree = "<group>"; };
+		000000000000000000000214 /* CalibrationModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationModelTests.swift; sourceTree = "<group>"; };
+		000000000000000000000215 /* SignalClassifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalClassifierTests.swift; sourceTree = "<group>"; };
+		000000000000000000000216 /* LockControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockControllerTests.swift; sourceTree = "<group>"; };
+		000000000000000000000217 /* SettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStoreTests.swift; sourceTree = "<group>"; };
+		000000000000000000000218 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		000000000000000000000219 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		00000000000000000000021A /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile; sourceTree = SOURCE_ROOT; };
+		00000000000000000000021B /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = SOURCE_ROOT; };
+		00000000000000000000021C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		000000000000000000000501 /* MacLocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacLocker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000502 /* MacLockerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacLockerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		000000000000000000000601 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000000000000000000000602 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		000000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000701 /* MacLocker */,
+				000000000000000000000702 /* MacLockerTests */,
+				000000000000000000000703 /* Products */,
+				000000000000000000000219 /* README.md */,
+				00000000000000000000021A /* Makefile */,
+				00000000000000000000021B /* .swiftformat */,
+			);
+			sourceTree = "<group>";
+		};
+		000000000000000000000701 /* MacLocker */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000218 /* Info.plist */,
+				00000000000000000000021C /* Assets.xcassets */,
+				000000000000000000000704 /* App */,
+				000000000000000000000705 /* UI */,
+				000000000000000000000706 /* Bluetooth */,
+				000000000000000000000707 /* Signal */,
+				000000000000000000000708 /* Locking */,
+				000000000000000000000709 /* Settings */,
+				00000000000000000000070A /* LaunchAtLogin */,
+			);
+			path = MacLocker;
+			sourceTree = "<group>";
+		};
+		000000000000000000000702 /* MacLockerTests */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000214 /* CalibrationModelTests.swift */,
+				000000000000000000000215 /* SignalClassifierTests.swift */,
+				000000000000000000000216 /* LockControllerTests.swift */,
+				000000000000000000000217 /* SettingsStoreTests.swift */,
+			);
+			path = MacLockerTests;
+			sourceTree = "<group>";
+		};
+		000000000000000000000703 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000501 /* MacLocker.app */,
+				000000000000000000000502 /* MacLockerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		000000000000000000000704 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000201 /* MacLockerApp.swift */,
+				000000000000000000000202 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		000000000000000000000705 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000203 /* StatusMenuController.swift */,
+				000000000000000000000204 /* SettingsWindowController.swift */,
+				000000000000000000000205 /* DeviceSelectionView.swift */,
+				000000000000000000000206 /* CalibrationView.swift */,
+				000000000000000000000207 /* SafetySettingsView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		000000000000000000000706 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000208 /* WatchScanner.swift */,
+				000000000000000000000209 /* BluetoothAuthorization.swift */,
+				00000000000000000000020A /* AdvertisementSummary.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		000000000000000000000707 /* Signal */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000000020B /* WatchSignalEvent.swift */,
+				00000000000000000000020C /* SignalClassifier.swift */,
+				00000000000000000000020D /* CalibrationModel.swift */,
+			);
+			path = Signal;
+			sourceTree = "<group>";
+		};
+		000000000000000000000708 /* Locking */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000000020E /* LockController.swift */,
+				00000000000000000000020F /* ImmediateShortcutLocker.swift */,
+				000000000000000000000210 /* DisplaySleepLocker.swift */,
+			);
+			path = Locking;
+			sourceTree = "<group>";
+		};
+		000000000000000000000709 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000211 /* SettingsStore.swift */,
+				000000000000000000000212 /* LockSettings.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		00000000000000000000070A /* LaunchAtLogin */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000213 /* LaunchAtLoginController.swift */,
+			);
+			path = LaunchAtLogin;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		000000000000000000000401 /* MacLocker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000901 /* Build configuration list for PBXNativeTarget "MacLocker" */;
+			buildPhases = (
+				000000000000000000000801 /* Sources */,
+				000000000000000000000601 /* Frameworks */,
+				000000000000000000000802 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacLocker;
+			productName = MacLocker;
+			productReference = 000000000000000000000501 /* MacLocker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		000000000000000000000402 /* MacLockerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000902 /* Build configuration list for PBXNativeTarget "MacLockerTests" */;
+			buildPhases = (
+				000000000000000000000803 /* Sources */,
+				000000000000000000000602 /* Frameworks */,
+				000000000000000000000804 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				000000000000000000000302 /* PBXTargetDependency */,
+			);
+			name = MacLockerTests;
+			productName = MacLockerTests;
+			productReference = 000000000000000000000502 /* MacLockerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		000000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 0;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					000000000000000000000401 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					000000000000000000000402 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 000000000000000000000401;
+					};
+				};
+			};
+			buildConfigurationList = 000000000000000000000900 /* Build configuration list for PBXProject "MacLocker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 000000000000000000000002;
+			productRefGroup = 000000000000000000000703 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				000000000000000000000401 /* MacLocker */,
+				000000000000000000000402 /* MacLockerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		000000000000000000000802 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000118 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000000000000000000000804 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		000000000000000000000801 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000101 /* MacLockerApp.swift in Sources */,
+				000000000000000000000102 /* AppDelegate.swift in Sources */,
+				000000000000000000000103 /* StatusMenuController.swift in Sources */,
+				000000000000000000000104 /* SettingsWindowController.swift in Sources */,
+				000000000000000000000105 /* DeviceSelectionView.swift in Sources */,
+				000000000000000000000106 /* CalibrationView.swift in Sources */,
+				000000000000000000000107 /* SafetySettingsView.swift in Sources */,
+				000000000000000000000108 /* WatchScanner.swift in Sources */,
+				000000000000000000000109 /* BluetoothAuthorization.swift in Sources */,
+				00000000000000000000010A /* AdvertisementSummary.swift in Sources */,
+				00000000000000000000010B /* WatchSignalEvent.swift in Sources */,
+				00000000000000000000010C /* SignalClassifier.swift in Sources */,
+				00000000000000000000010D /* CalibrationModel.swift in Sources */,
+				00000000000000000000010E /* LockController.swift in Sources */,
+				00000000000000000000010F /* ImmediateShortcutLocker.swift in Sources */,
+				000000000000000000000110 /* DisplaySleepLocker.swift in Sources */,
+				000000000000000000000111 /* SettingsStore.swift in Sources */,
+				000000000000000000000112 /* LockSettings.swift in Sources */,
+				000000000000000000000113 /* LaunchAtLoginController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000000000000000000000803 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000000114 /* CalibrationModelTests.swift in Sources */,
+				000000000000000000000115 /* SignalClassifierTests.swift in Sources */,
+				000000000000000000000116 /* LockControllerTests.swift in Sources */,
+				000000000000000000000117 /* SettingsStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		000000000000000000000302 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000000000401 /* MacLocker */;
+			targetProxy = 000000000000000000000301 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		000000000000000000000A01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		000000000000000000000A02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		000000000000000000000A03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = XZWGMZ2772;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MacLocker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.judahfuller.MacLocker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		000000000000000000000A04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = XZWGMZ2772;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MacLocker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.judahfuller.MacLocker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		000000000000000000000A05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.judahfuller.MacLockerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacLocker.app/Contents/MacOS/MacLocker";
+			};
+			name = Debug;
+		};
+		000000000000000000000A06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.judahfuller.MacLockerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacLocker.app/Contents/MacOS/MacLocker";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		000000000000000000000900 /* Build configuration list for PBXProject "MacLocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000A01 /* Debug */,
+				000000000000000000000A02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		000000000000000000000901 /* Build configuration list for PBXNativeTarget "MacLocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000A03 /* Debug */,
+				000000000000000000000A04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		000000000000000000000902 /* Build configuration list for PBXNativeTarget "MacLockerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000A05 /* Debug */,
+				000000000000000000000A06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 000000000000000000000001 /* Project object */;
+}
