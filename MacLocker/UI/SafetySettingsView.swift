@@ -48,6 +48,11 @@ struct SafetySettingsView: View {
                     .foregroundStyle(.red)
             }
 
+            if let lastPersistenceError = model.settingsStore.lastPersistenceError {
+                Label(lastPersistenceError, systemImage: "xmark.octagon.fill")
+                    .foregroundStyle(.red)
+            }
+
             Divider()
 
             VStack(alignment: .leading, spacing: 12) {
