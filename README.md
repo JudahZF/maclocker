@@ -29,9 +29,11 @@ brew install --cask maclocker
 
 ## Signing and Gatekeeper
 
-The default release package produced by this repository is Apple Development/ad-hoc signed, not Developer ID signed and notarized. Internet-downloaded ZIPs may trigger Gatekeeper warnings. If macOS blocks the app, use System Settings > Privacy & Security to allow it, or Control-click `MacLocker.app` and choose Open.
+App versions come from the Xcode build settings (`MARKETING_VERSION` and `CURRENT_PROJECT_VERSION`) and are substituted into `Info.plist` at build time.
 
-For a smoother public distribution, build a Developer ID signed, hardened-runtime enabled, notarized, and stapled app in Xcode Organizer, then pass the exported `MacLocker.app` to `scripts/package-release.sh /path/to/MacLocker.app`.
+The default release package produced by this repository is ad-hoc signed with hardened runtime enabled, not Developer ID signed or notarized. Internet-downloaded ZIPs may trigger Gatekeeper warnings. If macOS blocks the app, use System Settings > Privacy & Security to allow it, or Control-click `MacLocker.app` and choose Open.
+
+For public distribution, build a Developer ID signed, notarized, and stapled app in Xcode Organizer, then pass the exported `MacLocker.app` to `scripts/package-release.sh /path/to/MacLocker.app`. The script preserves that exported app instead of re-signing it.
 
 ## Build and Run
 
