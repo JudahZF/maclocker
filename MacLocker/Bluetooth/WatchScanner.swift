@@ -182,6 +182,11 @@ extension WatchScanner: CBCentralManagerDelegate {
 
         let now = Date()
         let id = peripheral.identifier
+        // Report RSSI for the selected watch before the name filter: many advertisements carry no name.
+        if selectedPeripheralID == id {
+            onSignalEvent?(WatchSignalEvent(peripheralID: id, rssi: rssi, timestamp: now))
+        }
+
         let summary = AdvertisementSummary(advertisementData: advertisementData)
         guard let displayName = normalizedDisplayName(peripheral.name ?? summary.localName) else {
             candidatesByID[id] = nil
@@ -198,15 +203,5 @@ extension WatchScanner: CBCentralManagerDelegate {
         )
         candidatesByID[id] = candidate
         requestCandidatePublish(at: now)
-
-        if selectedPeripheralID == id {
-            onSignalEvent?(
-                WatchSignalEvent(
-                    peripheralID: id,
-                    rssi: rssi,
-                    timestamp: candidate.lastSeen
-                )
-            )
-        }
     }
 }
