@@ -68,6 +68,10 @@ struct SignalClassifier: Equatable {
         lockedThisAwaySession = false
     }
 
+    mutating func retryLockingAfterFailedAttempt() {
+        lockedThisAwaySession = false
+    }
+
     mutating func evaluate(
         at now: Date,
         settings: LockSettings,

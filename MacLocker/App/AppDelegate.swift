@@ -430,6 +430,9 @@ final class AppModel: NSObject, ObservableObject {
                 status = .locked
             }
         } catch {
+            if markLocked {
+                classifier.retryLockingAfterFailedAttempt()
+            }
             lastLockError = error.localizedDescription
             status = .error(error.localizedDescription)
         }

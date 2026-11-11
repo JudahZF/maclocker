@@ -43,6 +43,35 @@ final class SignalClassifierTests: XCTestCase {
         XCTAssertTrue(evaluation.shouldLock)
     }
 
+    func testRetriesLockAfterFailedAttemptDuringSameAwaySession() {
+        var classifier = SignalClassifier()
+        let start = Date(timeIntervalSince1970: 100)
+        classifier.observe(event(rssi: -80, at: start), selectedPeripheralID: peripheralID)
+
+        _ = classifier.evaluate(at: start, settings: settings(), preconditions: readyPreconditions())
+        let firstAttempt = classifier.evaluate(
+            at: start.addingTimeInterval(20),
+            settings: settings(),
+            preconditions: readyPreconditions()
+        )
+        let suppressedAttempt = classifier.evaluate(
+            at: start.addingTimeInterval(21),
+            settings: settings(),
+            preconditions: readyPreconditions()
+        )
+
+        classifier.retryLockingAfterFailedAttempt()
+        let retryAttempt = classifier.evaluate(
+            at: start.addingTimeInterval(22),
+            settings: settings(),
+            preconditions: readyPreconditions()
+        )
+
+        XCTAssertTrue(firstAttempt.shouldLock)
+        XCTAssertFalse(suppressedAttempt.shouldLock)
+        XCTAssertTrue(retryAttempt.shouldLock)
+    }
+
     func testLockAfterMissingSignalPlusAwayHold() {
         var classifier = SignalClassifier()
         let start = Date(timeIntervalSince1970: 100)
