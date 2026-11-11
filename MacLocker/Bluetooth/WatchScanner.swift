@@ -161,16 +161,6 @@ final class WatchScanner: NSObject, ObservableObject, WatchScanning {
         return trimmedName
     }
 
-    static func signalEvent(
-        peripheralID: UUID,
-        selectedPeripheralID: UUID?,
-        rssi: Int,
-        timestamp: Date
-    ) -> WatchSignalEvent? {
-        guard selectedPeripheralID == peripheralID else { return nil }
-        return WatchSignalEvent(peripheralID: peripheralID, rssi: rssi, timestamp: timestamp)
-    }
-
     @objc private func publishPendingCandidates() {
         publishCandidates()
     }
@@ -192,13 +182,9 @@ extension WatchScanner: CBCentralManagerDelegate {
 
         let now = Date()
         let id = peripheral.identifier
-        if let signalEvent = Self.signalEvent(
-            peripheralID: id,
-            selectedPeripheralID: selectedPeripheralID,
-            rssi: rssi,
-            timestamp: now
-        ) {
-            onSignalEvent?(signalEvent)
+        // Report RSSI for the selected watch before the name filter: many advertisements carry no name.
+        if selectedPeripheralID == id {
+            onSignalEvent?(WatchSignalEvent(peripheralID: id, rssi: rssi, timestamp: now))
         }
 
         let summary = AdvertisementSummary(advertisementData: advertisementData)

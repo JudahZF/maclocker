@@ -31,7 +31,6 @@
 		000000000000000000000116 /* LockControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000216 /* LockControllerTests.swift */; };
 		000000000000000000000117 /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000217 /* SettingsStoreTests.swift */; };
 		000000000000000000000118 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000021C /* Assets.xcassets */; };
-		000000000000000000000119 /* WatchScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000021D /* WatchScannerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,7 +72,6 @@
 		00000000000000000000021A /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile; sourceTree = SOURCE_ROOT; };
 		00000000000000000000021B /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = SOURCE_ROOT; };
 		00000000000000000000021C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		00000000000000000000021D /* WatchScannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchScannerTests.swift; sourceTree = "<group>"; };
 		000000000000000000000501 /* MacLocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacLocker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		000000000000000000000502 /* MacLockerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacLockerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -131,7 +129,6 @@
 				000000000000000000000215 /* SignalClassifierTests.swift */,
 				000000000000000000000216 /* LockControllerTests.swift */,
 				000000000000000000000217 /* SettingsStoreTests.swift */,
-				00000000000000000000021D /* WatchScannerTests.swift */,
 			);
 			path = MacLockerTests;
 			sourceTree = "<group>";
@@ -342,7 +339,6 @@
 				000000000000000000000115 /* SignalClassifierTests.swift in Sources */,
 				000000000000000000000116 /* LockControllerTests.swift in Sources */,
 				000000000000000000000117 /* SettingsStoreTests.swift in Sources */,
-				000000000000000000000119 /* WatchScannerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
