@@ -82,6 +82,35 @@ final class SignalClassifierTests: XCTestCase {
         XCTAssertFalse(evaluation.shouldLock)
     }
 
+    func testNeutralHysteresisBandContinuesAwayCountdown() {
+        var classifier = SignalClassifier()
+        let start = Date(timeIntervalSince1970: 100)
+        classifier.observe(event(rssi: -80, at: start), selectedPeripheralID: peripheralID)
+        _ = classifier.evaluate(at: start, settings: settings(), preconditions: readyPreconditions())
+
+        var neutralEvaluation: SignalEvaluation?
+        for offset in 1 ... 19 {
+            let timestamp = start.addingTimeInterval(TimeInterval(offset))
+            classifier.observe(event(rssi: -62, at: timestamp), selectedPeripheralID: peripheralID)
+            neutralEvaluation = classifier.evaluate(at: timestamp, settings: settings(), preconditions: readyPreconditions())
+        }
+
+        if let neutralEvaluation {
+            XCTAssertEqual(neutralEvaluation.state, .awayCountdown(1))
+            XCTAssertGreaterThanOrEqual(neutralEvaluation.smoothedRSSI ?? -Double.infinity, -65)
+            XCTAssertLessThan(neutralEvaluation.smoothedRSSI ?? Double.infinity, -59)
+        } else {
+            XCTFail("Expected a neutral-band evaluation before locking")
+        }
+
+        let lockTime = start.addingTimeInterval(20)
+        classifier.observe(event(rssi: -62, at: lockTime), selectedPeripheralID: peripheralID)
+        let evaluation = classifier.evaluate(at: lockTime, settings: settings(), preconditions: readyPreconditions())
+
+        XCTAssertTrue(evaluation.shouldLock)
+        XCTAssertEqual(evaluation.state, .locked)
+    }
+
     func testNoLockWhenUncalibrated() {
         var classifier = SignalClassifier()
         let start = Date(timeIntervalSince1970: 100)

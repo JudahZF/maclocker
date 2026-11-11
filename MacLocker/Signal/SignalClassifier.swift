@@ -126,6 +126,7 @@ struct SignalClassifier: Equatable {
             nearEvidenceStartedAt = nil
         }
 
+        // Once started, neutral-band RSSI keeps the countdown running until sustained near evidence resets it.
         if awayEvidence || awayEvidenceStartedAt != nil {
             if awayEvidenceStartedAt == nil {
                 awayEvidenceStartedAt = now
