@@ -37,6 +37,7 @@ final class StatusMenuController: NSObject {
 
     private func rebuildMenu() {
         let menu = NSMenu()
+        menu.autoenablesItems = false
         menu.addItem(disabledItem("State: \(model.status.displayText)"))
         menu.addItem(disabledItem(selectedWatchTitle()))
         menu.addItem(disabledItem(rssiTitle()))
