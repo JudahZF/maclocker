@@ -74,6 +74,8 @@ enum CalibrationPhase: Equatable {
 
 @MainActor
 final class AppModel: NSObject, ObservableObject {
+    private static let screenUnlockedNotification = Notification.Name("com.apple.screenIsUnlocked")
+
     @Published var candidates: [WatchCandidate] = []
     @Published var scannerState: WatchScannerState = .idle
     @Published var status: AppStatus = .disabled
@@ -126,12 +128,19 @@ final class AppModel: NSObject, ObservableObject {
             name: NSWorkspace.didWakeNotification,
             object: nil
         )
+        DistributedNotificationCenter.default().addObserver(
+            self,
+            selector: #selector(handleScreenUnlock),
+            name: Self.screenUnlockedNotification,
+            object: nil
+        )
     }
 
     func stop() {
         tickTimer?.invalidate()
         scanner.stopDiscovery()
         NSWorkspace.shared.notificationCenter.removeObserver(self)
+        DistributedNotificationCenter.default().removeObserver(self)
     }
 
     func selectCandidate(_ candidate: WatchCandidate) {
@@ -427,6 +436,14 @@ final class AppModel: NSObject, ObservableObject {
     }
 
     @objc private func handleWake() {
+        suppressLockingAfterSystemResume()
+    }
+
+    @objc private func handleScreenUnlock() {
+        suppressLockingAfterSystemResume()
+    }
+
+    private func suppressLockingAfterSystemResume() {
         classifier.suppressLocking(at: Date(), settings: settingsStore.settings)
         evaluateSignal(at: Date())
     }

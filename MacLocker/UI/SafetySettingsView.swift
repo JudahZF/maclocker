@@ -81,10 +81,10 @@ struct SafetySettingsView: View {
                 )
 
                 timingStepper(
-                    "Grace after wake",
+                    "Grace after unlock",
                     value: graceBinding,
                     range: 0 ... 300,
-                    help: "Auto-lock is suppressed for this long after launch, wake, or resume."
+                    help: "Auto-lock is suppressed for this long after launch, wake, unlock, or resume."
                 )
             }
 
